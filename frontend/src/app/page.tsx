@@ -201,14 +201,14 @@ export default function HomePage() {
         <div className="w-full bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-150 dark:border-neutral-850/40 py-3.5 px-6 md:px-12 lg:px-20 select-none flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#FF385C]">AI Mood Matcher</span>
-            <span className="text-xs text-neutral-500 font-medium hidden sm:inline">&bull; Select your vibe, AI recommends stays:</span>
+            <span className="text-xs text-neutral-500 dark:text-neutral-300 font-medium hidden sm:inline">&bull; Select your vibe, AI recommends stays:</span>
           </div>
           <div className="flex gap-2 overflow-x-auto hide-scrollbar">
             {['😌 Relax', '🏔 Adventure', '💼 Workation', '💑 Romantic', '🎉 Party', '👨‍👩‍👧 Family'].map((mood) => (
               <button
                 key={mood}
                 onClick={() => handleMoodClick(mood)}
-                className="px-3.5 py-1.5 bg-white dark:bg-neutral-800 hover:border-[#FF385C] border border-neutral-200 dark:border-neutral-700 rounded-full text-xs font-bold text-neutral-700 dark:text-neutral-350 cursor-pointer active:scale-97 transition-all shrink-0 shadow-xs"
+                className="px-3.5 py-1.5 bg-white dark:bg-neutral-800 hover:border-[#FF385C] hover:bg-neutral-50 dark:hover:bg-neutral-700 border border-neutral-200 dark:border-neutral-700 rounded-full text-xs font-bold text-neutral-700 dark:text-neutral-200 hover:text-black dark:hover:text-white cursor-pointer active:scale-97 transition-all shrink-0 shadow-xs"
               >
                 {mood}
               </button>

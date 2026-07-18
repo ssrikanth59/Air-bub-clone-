@@ -312,7 +312,7 @@ export default function Navbar() {
                       flex flex-col items-center gap-2 pb-2 shrink-0 border-b-2 transition-all cursor-pointer select-none group
                       ${isSelected 
                         ? 'border-[#222222] dark:border-white text-[#222222] dark:text-white font-semibold' 
-                        : 'border-transparent text-neutral-500 hover:text-[#222222] dark:hover:text-white hover:border-neutral-200 dark:hover:border-neutral-800 font-medium'
+                        : 'border-transparent text-neutral-500 dark:text-neutral-400 hover:text-[#222222] dark:hover:text-white hover:border-neutral-200 dark:hover:border-neutral-800 font-medium'
                       }
                     `}
                   >
@@ -321,7 +321,7 @@ export default function Navbar() {
                       className={`
                         ${isSelected 
                           ? 'text-[#222222] dark:text-white' 
-                          : 'text-neutral-500 group-hover:text-[#222222] dark:group-hover:text-white'
+                          : 'text-neutral-500 dark:text-neutral-400 group-hover:text-[#222222] dark:group-hover:text-white'
                         }
                         transition-colors
                       `} 
