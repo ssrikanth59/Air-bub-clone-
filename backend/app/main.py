@@ -7,16 +7,18 @@ from app.core.config import settings
 from app.core.database import engine, Base
 from app.api.router import api_router
 
-# Auto-create SQLite database tables on startup.
-# This makes it seamless for evaluators to run the application without running manual migrations.
-Base.metadata.create_all(bind=engine)
-
 app = FastAPI(
     title=settings.PROJECT_NAME,
     description="Production-grade API for the Airbnb Clone SDE hiring assignment",
     version="1.0.0",
     openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
+
+# Auto-create database tables on startup.
+@app.on_event("startup")
+def on_startup():
+    Base.metadata.create_all(bind=engine)
+
 
 # CORS Configuration
 # Standard React/Next.js default port is 3000, Vite is 5173.
