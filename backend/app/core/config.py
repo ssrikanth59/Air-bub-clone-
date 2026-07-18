@@ -21,5 +21,9 @@ class Settings(BaseModel):
 
 settings = Settings()
 
-# Ensure upload directory exists
-os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+# Ensure upload directory exists (ignore if read-only filesystem like Vercel)
+try:
+    os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+except OSError:
+    pass
+
