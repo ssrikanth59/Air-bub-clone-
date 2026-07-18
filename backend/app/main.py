@@ -30,8 +30,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Ensure upload static dir exists
-os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+# Ensure upload static dir exists (ignore if read-only filesystem like Vercel)
+try:
+    os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+except OSError:
+    pass
+
 
 # Mount uploads static folder to serve uploaded listing images
 app.mount(
