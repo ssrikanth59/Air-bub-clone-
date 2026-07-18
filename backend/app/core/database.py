@@ -5,9 +5,11 @@ from app.core.config import settings
 
 db_url = settings.DATABASE_URL
 if db_url.startswith("postgres://"):
-    db_url = db_url.replace("postgres://", "postgresql://", 1)
+    db_url = db_url.replace("postgres://", "postgresql+pg8000://", 1)
+elif db_url.startswith("postgresql://"):
+    db_url = db_url.replace("postgresql://", "postgresql+pg8000://", 1)
 
-# Strip channel_binding if present, as it is unsupported by older libpq versions on serverless runtimes
+# Strip channel_binding if present
 if "channel_binding=" in db_url:
     import urllib.parse as urlparse
     parsed = urlparse.urlparse(db_url)
@@ -24,10 +26,13 @@ if "channel_binding=" in db_url:
     ))
 
 
-# For SQLite, we need check_same_thread: False
+# Configure connect_args based on database type
 connect_args = {}
 if db_url.startswith("sqlite"):
     connect_args = {"check_same_thread": False}
+else:
+    # Use ssl_context = True to require SSL when connecting via pg8000
+    connect_args = {"ssl_context": True}
 
 engine = create_engine(
     db_url,
