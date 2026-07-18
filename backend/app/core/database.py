@@ -9,12 +9,13 @@ if db_url.startswith("postgres://"):
 elif db_url.startswith("postgresql://"):
     db_url = db_url.replace("postgresql://", "postgresql+pg8000://", 1)
 
-# Strip channel_binding if present
-if "channel_binding=" in db_url:
+# Strip query parameters that are unsupported by pg8000 (like channel_binding and sslmode)
+if "?" in db_url or "channel_binding=" in db_url or "sslmode=" in db_url:
     import urllib.parse as urlparse
     parsed = urlparse.urlparse(db_url)
     query = urlparse.parse_qs(parsed.query)
     query.pop('channel_binding', None)
+    query.pop('sslmode', None)  # Pop sslmode because pg8000 does not support it as a keyword argument in connect()
     new_query = urlparse.urlencode(query, doseq=True)
     db_url = urlparse.urlunparse((
         parsed.scheme,
@@ -24,6 +25,7 @@ if "channel_binding=" in db_url:
         new_query,
         parsed.fragment
     ))
+
 
 
 # Configure connect_args based on database type
