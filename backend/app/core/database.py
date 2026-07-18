@@ -7,6 +7,23 @@ db_url = settings.DATABASE_URL
 if db_url.startswith("postgres://"):
     db_url = db_url.replace("postgres://", "postgresql://", 1)
 
+# Strip channel_binding if present, as it is unsupported by older libpq versions on serverless runtimes
+if "channel_binding=" in db_url:
+    import urllib.parse as urlparse
+    parsed = urlparse.urlparse(db_url)
+    query = urlparse.parse_qs(parsed.query)
+    query.pop('channel_binding', None)
+    new_query = urlparse.urlencode(query, doseq=True)
+    db_url = urlparse.urlunparse((
+        parsed.scheme,
+        parsed.netloc,
+        parsed.path,
+        parsed.params,
+        new_query,
+        parsed.fragment
+    ))
+
+
 # For SQLite, we need check_same_thread: False
 connect_args = {}
 if db_url.startswith("sqlite"):
